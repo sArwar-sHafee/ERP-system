@@ -14,9 +14,10 @@ financial_management_prompt = ChatPromptTemplate.from_messages(
             "Start conversation respectfully."
             "Diagnose the user query based on the user's input"
             "If any information is missing to call proper tool, ask the user for clarification."
-            "While ready to call tool ask the user for confirmation once again by repeating the user's query."
+            "While ready to call tool ask the user for confirmation once again by repeating the user's query. This is very important"
             "If the user confirms that it is correct only then call proper tool to solve user query. It is very important."
             "Remember that an issue isn't resolved until the relevant tool or method has successfully been used."
+            "Remember always provide a response while calling a tool or after calling a tool."
             "\nCurrent time: {time}."
             '\n\nIf the user needs help, and none of your tools are appropriate for it, then "CompleteOrEscalate" the dialog to the host assistant.'
             "Do not make up invalid tools or functions."

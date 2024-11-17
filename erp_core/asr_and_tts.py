@@ -1,18 +1,18 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import tempfile
 import scipy.io.wavfile as wavfile
 from openai import OpenAI
-from elevenlabs import ElevenLabs, VoiceSettings, play, stream
+# from elevenlabs import ElevenLabs, VoiceSettings, play, stream
 
 # Load API keys from .env file
-load_dotenv(override=True)
+# load_dotenv(override=True)
 openai_api_key = os.getenv('OPENAI_API_KEY')
-elevenlabs_api_key = os.getenv('ELEVENLABS_API_KEY')
+# elevenlabs_api_key = os.getenv('ELEVENLABS_API_KEY')
 
 # Initialize clients
 openai_client = OpenAI()
-elevenlabs_client = ElevenLabs(api_key=elevenlabs_api_key)
+# elevenlabs_client = ElevenLabs(api_key=elevenlabs_api_key)
 
 # Function to transcribe audio using OpenAI Whisper API
 def transcribe(audio):
@@ -32,7 +32,6 @@ def transcribe(audio):
         transcription_response = openai_client.audio.transcriptions.create(
             model="whisper-1", 
             file=audio_file,
-            language="en",
         )
     
     transcription_text = transcription_response.text
@@ -40,23 +39,37 @@ def transcribe(audio):
 
 def tts(response_text):
     # Now, use ElevenLabs to convert the transcription text to speech
-    tts_response = elevenlabs_client.text_to_speech.convert(
-        voice_id="CwhRBWXzGAHq8TQ4Fs17",
-        optimize_streaming_latency="0",
-        output_format="mp3_22050_32",
-        text=response_text,
-        voice_settings=VoiceSettings(
-            stability=0.1,
-            similarity_boost=0.3,
-            style=0.2,
-        ),
+    # tts_response = elevenlabs_client.text_to_speech.convert(
+    #     voice_id="CwhRBWXzGAHq8TQ4Fs17",
+    #     optimize_streaming_latency="0",
+    #     output_format="mp3_22050_32",
+    #     text=response_text,
+    #     voice_settings=VoiceSettings(
+    #         stability=0.1,
+    #         similarity_boost=0.3,
+    #         style=0.2,
+    #     ),
+    # )
+    
+    # audio_file_path = "output_audio.mp3"
+    # with open(audio_file_path, "wb") as audio_file:
+    #     for chunk in tts_response:
+    #         audio_file.write(chunk)
+    
+    # return audio_file_path
+
+    tts_client = OpenAI()
+
+    response = tts_client.audio.speech.create(
+        model="tts-1",
+        voice="onyx",
+        input=response_text,
     )
-    
-    audio_file_path = "output_audio.mp3"
-    with open(audio_file_path, "wb") as audio_file:
-        for chunk in tts_response:
-            audio_file.write(chunk)
-    
-    return audio_file_path
+    # file_path = "output.mp3"
+    # if os.path.exists(file_path):
+    # # Delete the file
+    #     os.remove(file_path)
+    response.stream_to_file("output.mp3")
+    return "output.mp3"
 
 
