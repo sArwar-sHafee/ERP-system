@@ -18,11 +18,39 @@ this is provide a local host link to interact with the gradio interface.
 
 enter into the link provided by gradio. Generally the link will be: `http://127.0.0.1:7860/`
 
----
-
 Or you can also directly chat into the huggingface space from the link:
 
 `https://huggingface.co/spaces/SarwarShafee/ERP-system`
+
+---
+
+## Structure of the project
+
+```
+ERP-system/
+    ERP-system/
+        app.py
+        llm_runner.py
+        erp_core/
+            ...
+            runnable/
+                ...
+            Tools/
+            	...
+            tool_binder/
+                ...
+            node_builder/
+            	...
+
+```
+
+The `llm_runner.py` file runs the llm only. And user will be able to chat with the system via terminal by running this file.
+
+
+The `app.py` file runs the system in gradio interface. Here all the NLP components are joined together. 
+
+---
+
 
 # About the Project:
 
